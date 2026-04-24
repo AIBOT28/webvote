@@ -13,8 +13,17 @@ connectDB();
 const app = express();
 
 // Middleware
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use(cors({
-  origin: ['https://giangvienhuit.vercel.app', 'http://localhost:3000'],
+  origin: ['https://giangvienhuit.vercel.app', 'https://www.giangvienhuit.vercel.app', 'http://localhost:3000'],
   credentials: true
 }));
 app.use(express.json());
