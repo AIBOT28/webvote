@@ -1,11 +1,22 @@
 const Review = require('../models/Review');
 const { checkContent } = require('../utils/moderation');
+const { cache, clearByPrefix } = require('../utils/cache');
+
 
 // @desc    Get reviews for a teacher
 // @route   GET /api/reviews?teacher=xxx
 const getReviews = async (req, res) => {
   try {
     const { teacher, student, status, all, page = 1, limit = 10 } = req.query;
+    
+    // Create a unique cache key based on query params and user role
+    const cacheKey = `reviews_${teacher || ''}_${student || ''}_${status || ''}_${all || ''}_${page}_${limit}_${req.user?.role || 'guest'}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      return res.json(cachedData);
+    }
+
     const query = {};
 
     if (teacher) query.teacher = teacher;
@@ -18,12 +29,9 @@ const getReviews = async (req, res) => {
       } else if (!all) {
         query.status = 'approved';
       }
-      // if all is true, don't filter by status
     } else {
       query.status = 'approved';
     }
-
-    console.log('Reviews Filter Query:', query);
 
     const total = await Review.countDocuments(query);
     const reviews = await Review.find(query)
@@ -33,15 +41,21 @@ const getReviews = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
 
-    res.json({
+    const response = {
       success: true,
       data: reviews,
       pagination: { page: parseInt(page), limit: parseInt(limit), total, pages: Math.ceil(total / limit) }
-    });
+    };
+
+    // Save to cache
+    cache.set(cacheKey, response);
+
+    res.json(response);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Create review
 // @route   POST /api/reviews
@@ -83,12 +97,20 @@ const createReview = async (req, res) => {
       { path: 'student', select: 'name avatar' },
       { path: 'teacher', select: 'name' }
     ]);
+
+    // Clear review and teacher related caches
+    clearByPrefix('reviews_');
+    clearByPrefix('teachers_'); // Ratings changed
+    clearByPrefix('teacher_');   // Specific teacher details changed
+    clearByPrefix('stats_');      // Global stats changed
+
     res.status(201).json({ success: true, data: populated });
   } catch (error) {
     console.error('Create Review Error:', error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Update review
 // @route   PUT /api/reviews/:id
@@ -118,11 +140,19 @@ const updateReview = async (req, res) => {
       { path: 'student', select: 'name avatar' },
       { path: 'teacher', select: 'name' }
     ]);
+
+    // Clear review and teacher related caches
+    clearByPrefix('reviews_');
+    clearByPrefix('teachers_');
+    clearByPrefix('teacher_');
+    clearByPrefix('stats_');
+
     res.json({ success: true, data: populated });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Delete review
 // @route   DELETE /api/reviews/:id
@@ -136,10 +166,18 @@ const deleteReview = async (req, res) => {
     }
 
     await Review.findByIdAndDelete(req.params.id);
+
+    // Clear review and teacher related caches
+    clearByPrefix('reviews_');
+    clearByPrefix('teachers_');
+    clearByPrefix('teacher_');
+    clearByPrefix('stats_');
+
     res.json({ success: true, message: 'Đã xóa đánh giá' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 module.exports = { getReviews, createReview, updateReview, deleteReview };

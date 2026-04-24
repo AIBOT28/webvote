@@ -1,11 +1,22 @@
 const Teacher = require('../models/Teacher');
 const Subject = require('../models/Subject');
+const { cache, clearByPrefix } = require('../utils/cache');
+
 
 // @desc    Get all teachers (with pagination, search, filter)
 // @route   GET /api/teachers
 const getTeachers = async (req, res) => {
   try {
     const { department, search, status, sort = '-averageRating', page = 1, limit = 12 } = req.query;
+    
+    // Create a unique cache key based on query params and user role
+    const cacheKey = `teachers_${department || ''}_${search || ''}_${status || ''}_${sort}_${page}_${limit}_${req.user?.role || 'guest'}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      return res.json(cachedData);
+    }
+
     const query = {};
 
     if (department) query.department = department;
@@ -27,7 +38,7 @@ const getTeachers = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
 
-    res.json({
+    const response = {
       success: true,
       data: teachers,
       pagination: {
@@ -36,16 +47,29 @@ const getTeachers = async (req, res) => {
         total,
         pages: Math.ceil(total / limit)
       }
-    });
+    };
+
+    // Save to cache
+    cache.set(cacheKey, response);
+
+    res.json(response);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
+
 // @desc    Get single teacher
 // @route   GET /api/teachers/:id
 const getTeacher = async (req, res) => {
   try {
+    const cacheKey = `teacher_${req.params.id}_${req.user?.role || 'guest'}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      return res.json(cachedData);
+    }
+
     const teacher = await Teacher.findById(req.params.id)
       .populate('department', 'name')
       .populate('subjects', 'name code');
@@ -58,11 +82,15 @@ const getTeacher = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Giảng viên này đang chờ xét duyệt' });
     }
 
-    res.json({ success: true, data: teacher });
+    const response = { success: true, data: teacher };
+    cache.set(cacheKey, response);
+    
+    res.json(response);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Create teacher
 // @route   POST /api/teachers
@@ -73,11 +101,16 @@ const createTeacher = async (req, res) => {
       { path: 'department', select: 'name' },
       { path: 'subjects', select: 'name code' }
     ]);
+
+    // Clear all teacher related caches
+    clearByPrefix('teachers_');
+    
     res.status(201).json({ success: true, data: populated });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Update teacher
 // @route   PUT /api/teachers/:id
@@ -92,11 +125,20 @@ const updateTeacher = async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy giảng viên' });
     }
+
+    // Clear specific teacher cache and the list cache
+    cache.del(`teacher_${req.params.id}_guest`);
+    cache.del(`teacher_${req.params.id}_student`);
+    cache.del(`teacher_${req.params.id}_admin`);
+    cache.del(`teacher_${req.params.id}_manager`);
+    clearByPrefix('teachers_');
+
     res.json({ success: true, data: teacher });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Request new teacher (for students)
 // @route   POST /api/teachers/request
@@ -132,11 +174,15 @@ const requestTeacher = async (req, res) => {
       requestedBy: req.user._id
     });
 
+    // Clear list cache (especially for admins who see pending teachers)
+    clearByPrefix('teachers_');
+
     res.status(201).json({ success: true, data: teacher });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Delete teacher
 // @route   DELETE /api/teachers/:id
@@ -146,10 +192,19 @@ const deleteTeacher = async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy giảng viên' });
     }
+
+    // Clear specific teacher cache and the list cache
+    cache.del(`teacher_${req.params.id}_guest`);
+    cache.del(`teacher_${req.params.id}_student`);
+    cache.del(`teacher_${req.params.id}_admin`);
+    cache.del(`teacher_${req.params.id}_manager`);
+    clearByPrefix('teachers_');
+
     res.json({ success: true, message: 'Đã xóa giảng viên' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 module.exports = { getTeachers, getTeacher, createTeacher, updateTeacher, deleteTeacher, requestTeacher };
