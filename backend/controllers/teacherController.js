@@ -1,5 +1,7 @@
 const Teacher = require('../models/Teacher');
 const Subject = require('../models/Subject');
+const Department = require('../models/Department');
+const User = require('../models/User');
 const { cache, clearByPrefix } = require('../utils/cache');
 
 
@@ -54,6 +56,7 @@ const getTeachers = async (req, res) => {
 
     res.json(response);
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -87,6 +90,7 @@ const getTeacher = async (req, res) => {
     
     res.json(response);
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -107,6 +111,7 @@ const createTeacher = async (req, res) => {
     
     res.status(201).json({ success: true, data: populated });
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -135,6 +140,7 @@ const updateTeacher = async (req, res) => {
 
     res.json({ success: true, data: teacher });
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -179,6 +185,7 @@ const requestTeacher = async (req, res) => {
 
     res.status(201).json({ success: true, data: teacher });
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -202,6 +209,7 @@ const deleteTeacher = async (req, res) => {
 
     res.json({ success: true, message: 'Đã xóa giảng viên' });
   } catch (error) {
+    console.error('GET TEACHERS ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
