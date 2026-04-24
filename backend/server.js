@@ -13,7 +13,10 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://giangvienhuit.vercel.app', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -28,13 +31,17 @@ app.use('/api/stats', require('./routes/stats'));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'Server is running' });
+  res.json({ success: true, message: 'Server is running', env: process.env.NODE_ENV });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ success: false, message: 'Internal Server Error' });
+  console.error('SERVER ERROR:', err);
+  res.status(500).json({ 
+    success: false, 
+    message: 'Backend Error: ' + err.message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack
+  });
 });
 
 const PORT = process.env.PORT || 5000;
