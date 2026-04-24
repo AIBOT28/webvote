@@ -1,0 +1,183 @@
+.home {
+  padding-bottom: 80px;
+}
+
+/* ======================== HERO ======================== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 24px 60px;
+  gap: 60px;
+}
+
+.heroContent { flex: 1; max-width: 550px; }
+
+.heroBadge {
+  display: inline-flex;
+  padding: 4px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-light);
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.heroHighlight {
+  color: var(--primary-light);
+}
+
+.heroDesc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.heroBtns {
+  display: flex;
+  gap: 12px;
+}
+
+.heroVisual {
+  flex: 0 0 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heroCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.heroCardText { font-size: 14px; font-weight: 600; flex: 1; }
+
+.heroBar {
+  width: 70px;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.heroBarFill {
+  width: 75%;
+  height: 100%;
+  background: var(--primary);
+}
+
+.heroReviewPreview {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ======================== STATS ======================== */
+.stats {
+  padding: 40px 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 12px;
+  text-align: center;
+}
+
+.statValue { font-size: 24px; font-weight: 700; color: var(--text-primary); }
+.statLabel { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ======================== TOP SECTION ======================== */
+.topSection {
+  padding: 40px 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.sectionLink {
+  font-size: 13px;
+  color: var(--primary-light);
+}
+
+.teacherGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ======================== CTA ======================== */
+.cta {
+  padding: 40px 0;
+}
+
+.ctaCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ctaDesc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* ======================== RESPONSIVE ======================== */
+@media (max-width: 1024px) {
+  .statsGrid { grid-template-columns: repeat(3, 1fr); }
+  .teacherGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 40px 16px;
+    text-align: center;
+  }
+  .heroTitle { font-size: 28px; }
+  .heroVisual { flex: none; width: 100%; }
+  .heroBtns { justify-content: center; }
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+  .teacherGrid { grid-template-columns: 1fr; }
+}
