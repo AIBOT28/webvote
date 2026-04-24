@@ -34,13 +34,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>Hệ thống đánh giá giảng viên</div>
+          <div className={styles.heroBadge}>Hệ thống review giảng viên</div>
           <h1 className={styles.heroTitle}>
-            Đánh giá & Xếp hạng
-            <span className={styles.heroHighlight}> Giảng Viên</span>
+            Review & Xếp hạng
+            <span className={styles.heroHighlight}> Giảng Viên HUIT</span>
           </h1>
           <p className={styles.heroDesc}>
-            Cùng sinh viên đánh giá chất lượng giảng dạy, xếp hạng giảng viên và giúp nâng cao chất lượng đào tạo.
+            Cùng sinh viên review chất lượng giảng dạy, xếp hạng giảng viên và giúp nâng cao chất lượng đào tạo.
           </p>
           <div className={styles.heroBtns}>
             <Link href="/teachers" className="btn btn-primary btn-lg">
@@ -66,7 +66,7 @@ export default function HomePage() {
                 { label: 'Môn học', value: stats.subjects },
                 { label: 'Giảng viên', value: stats.teachers },
                 { label: 'Sinh viên', value: stats.students },
-                { label: 'Đánh giá', value: stats.reviews },
+                { label: 'Review', value: stats.reviews },
               ].map((s, i) => (
                 <div key={i} className={styles.statCard}>
                   <div className={styles.statValue}>{s.value}</div>
@@ -103,7 +103,7 @@ export default function HomePage() {
           <div className={styles.ctaCard}>
             <h2 className={styles.ctaTitle}>Cổng sinh viên</h2>
             <p className={styles.ctaDesc}>
-              Đăng ký tài khoản Google để tham gia đánh giá giảng viên ngay.
+                Đăng ký tài khoản Google để tham gia review giảng viên ngay.
             </p>
             <Link href="/register" className="btn btn-primary btn-lg">
               Bắt đầu ngay

@@ -35,7 +35,7 @@ export default function RankingPage() {
     <div className="container" style={{ padding: '40px 24px 80px' }}>
       <div className="page-header">
         <h1 className="page-title">Bảng xếp hạng</h1>
-        <p className="page-subtitle">Xếp hạng dựa trên đánh giá trung bình của sinh viên</p>
+        <p className="page-subtitle">Xếp hạng dựa trên review trung bình của sinh viên</p>
       </div>
 
       <div className={styles.filters}>

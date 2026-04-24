@@ -74,7 +74,7 @@ export default function TeacherRequestPage() {
     <div className="container" style={{ maxWidth: 600, padding: '60px 20px' }}>
       <h1 className="page-title">Yêu cầu thêm giảng viên</h1>
       <p className="page-subtitle" style={{ marginBottom: 32 }}>
-        Nếu bạn không tìm thấy giảng viên mình muốn đánh giá, hãy gửi yêu cầu tại đây.
+        Nếu bạn không tìm thấy giảng viên mình muốn review, hãy gửi yêu cầu tại đây.
       </p>
 
       <form onSubmit={handleSubmit} className="card">

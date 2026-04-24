@@ -20,10 +20,10 @@ export default function DashFlaggedPage() {
     try {
       if (action === 'approve') {
         await api.put(`/reviews/${id}`, { status: 'approved' });
-        toast.success('Đã duyệt đánh giá');
+        toast.success('Đã duyệt review');
       } else {
         await api.delete(`/reviews/${id}`);
-        toast.success('Đã xóa đánh giá vi phạm');
+        toast.success('Đã xóa review vi phạm');
       }
       fetchData();
     } catch (err) {
@@ -33,7 +33,7 @@ export default function DashFlaggedPage() {
 
   return (
     <div>
-      <h1 className="page-title" style={{ marginBottom: 24 }}>Đánh giá bị gắn cờ</h1>
+      <h1 className="page-title" style={{ marginBottom: 24 }}>Review bị gắn cờ</h1>
       <p className="page-subtitle" style={{ marginBottom: 28 }}>Hệ thống AI phát hiện các từ ngữ nhạy cảm cần admin xem xét.</p>
 
       <div className="table-wrapper">
@@ -73,7 +73,7 @@ export default function DashFlaggedPage() {
               </tr>
             ))}
             {reviews.length === 0 && !loading && (
-              <tr><td colSpan="5" style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Không có đánh giá nào bị gắn cờ</td></tr>
+              <tr><td colSpan="5" style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Không có review nào bị gắn cờ</td></tr>
             )}
           </tbody>
         </table>

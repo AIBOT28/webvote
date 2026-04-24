@@ -24,13 +24,13 @@ export default function DashboardPage() {
     { value: stats.subjects, label: 'Môn học', color: '#06b6d4' },
     { value: stats.teachers, label: 'Giảng viên', color: '#10b981' },
     { value: stats.students, label: 'Sinh viên', color: '#f59e0b' },
-    { value: stats.reviews, label: 'Đánh giá', color: '#ef4444' },
+    { value: stats.reviews, label: 'Review', color: '#ef4444' },
   ];
 
   return (
     <div>
       <h1 className="page-title">Tổng quan</h1>
-      <p className="page-subtitle" style={{ marginBottom: 28 }}>Thống kê hệ thống đánh giá giảng viên</p>
+      <p className="page-subtitle" style={{ marginBottom: 28 }}>Thống kê hệ thống review giảng viên</p>
 
       <div className={styles.statsGrid}>
         {cards.map((c, i) => (
@@ -54,7 +54,7 @@ export default function DashboardPage() {
                   <th>Giảng viên</th>
                   <th>Khoa</th>
                   <th>Điểm</th>
-                  <th>Đánh giá</th>
+                  <th>Review</th>
                 </tr>
               </thead>
               <tbody>

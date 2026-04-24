@@ -45,24 +45,24 @@ export default function TeacherDetailPage({ params }) {
     setSubmitting(true);
     try {
       await api.post('/reviews', { teacher: id, rating, comment });
-      toast.success('Đánh giá thành công!');
+      toast.success('Review thành công!');
       setRating(0); setComment('');
       fetchData();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Không thể gửi đánh giá');
+      toast.error(err.response?.data?.message || 'Không thể gửi review');
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDeleteReview = async (reviewId) => {
-    if (!confirm('Bạn có chắc muốn xóa đánh giá này?')) return;
+    if (!confirm('Bạn có chắc muốn xóa review này?')) return;
     try {
       await api.delete(`/reviews/${reviewId}`);
-      toast.success('Đã xóa đánh giá');
+      toast.success('Đã xóa review');
       fetchData();
     } catch (err) {
-      toast.error('Không thể xóa đánh giá');
+      toast.error('Không thể xóa review');
     }
   };
 
@@ -115,7 +115,7 @@ export default function TeacherDetailPage({ params }) {
           {/* Review Form */}
           {user && (
             <div className="card" style={{ marginBottom: 24 }}>
-              <h3 style={{ marginBottom: 16, fontWeight: 700 }}>Viết đánh giá</h3>
+              <h3 style={{ marginBottom: 16, fontWeight: 700 }}>Viết review</h3>
               <form onSubmit={handleSubmitReview}>
                 <div className="form-group">
                   <label className="form-label">Chọn mức điểm (1-5)</label>
@@ -133,9 +133,9 @@ export default function TeacherDetailPage({ params }) {
           )}
 
           {/* Reviews List */}
-          <h3 style={{ marginBottom: 16, fontWeight: 700 }}>Danh sách đánh giá ({reviews.length})</h3>
+          <h3 style={{ marginBottom: 16, fontWeight: 700 }}>Danh sách review ({reviews.length})</h3>
           {reviews.length === 0 ? (
-            <div className="empty-state"><p className="empty-state-text">Chưa có đánh giá nào</p></div>
+            <div className="empty-state"><p className="empty-state-text">Chưa có review nào</p></div>
           ) : (
             reviews.map(r => (
               <div key={r._id} className={styles.reviewCard}>

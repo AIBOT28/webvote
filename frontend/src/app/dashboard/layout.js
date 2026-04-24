@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }) {
     { href: '/dashboard/teachers', label: 'Giảng viên' },
     { href: '/dashboard/requests', label: 'Yêu cầu (GV)' },
     { href: '/dashboard/flagged', label: 'Bị gắn cờ' },
-    { href: '/dashboard/reviews', label: 'Đánh giá' },
+    { href: '/dashboard/reviews', label: 'Review' },
   ];
 
   if (user?.role === 'admin') {

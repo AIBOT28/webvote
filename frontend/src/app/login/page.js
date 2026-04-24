@@ -48,7 +48,7 @@ export default function LoginPage() {
 
         <div className={styles.divider}>
           <span className={styles.dividerText}>
-            Hệ thống quản lý đánh giá giảng viên
+            Hệ thống quản lý review giảng viên
           </span>
         </div>
       </div>

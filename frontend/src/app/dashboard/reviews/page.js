@@ -19,14 +19,14 @@ export default function DashReviewsPage() {
   useEffect(() => { fetchData(); }, [page]);
 
   const handleDelete = async (id) => {
-    if (!confirm('Xóa đánh giá này?')) return;
+    if (!confirm('Xóa review này?')) return;
     try { await api.delete(`/reviews/${id}`); toast.success('Đã xóa'); fetchData(); }
     catch { toast.error('Không thể xóa'); }
   };
 
   return (
     <div>
-      <h1 className="page-title" style={{ marginBottom: 24 }}>Quản lý Đánh giá</h1>
+      <h1 className="page-title" style={{ marginBottom: 24 }}>Quản lý Review</h1>
 
       <div className="table-wrapper">
         <table className="table">

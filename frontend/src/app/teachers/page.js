@@ -47,7 +47,7 @@ export default function TeachersPage() {
       <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20 }}>
         <div>
           <h1 className="page-title">Danh sách giảng viên</h1>
-          <p className="page-subtitle">Tìm kiếm, đánh giá giảng viên theo khoa hoặc xếp hạng</p>
+          <p className="page-subtitle">Tìm kiếm, review giảng viên theo khoa hoặc xếp hạng</p>
         </div>
         <Link href="/teachers/request" className="btn btn-secondary">
           Yêu cầu thêm giảng viên
@@ -71,11 +71,12 @@ export default function TeachersPage() {
           ))}
         </select>
         <select className="form-select" value={sort} onChange={e => setSort(e.target.value)} style={{ maxWidth: 200 }}>
-          <option value="-averageRating">Đánh giá cao nhất</option>
-          <option value="averageRating">Đánh giá thấp nhất</option>
+          <option value="-averageRating">Review cao nhất</option>
+          <option value="averageRating">Review thấp nhất</option>
+          <option value="-createdAt">Mới nhất</option>
+          <option value="-totalReviews">Nhiều review nhất</option>
           <option value="name">Tên A-Z</option>
           <option value="-name">Tên Z-A</option>
-          <option value="-totalReviews">Nhiều đánh giá nhất</option>
         </select>
       </div>
 
