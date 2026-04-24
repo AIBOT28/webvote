@@ -9,8 +9,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="vi">
       <head>
-        <title>EduRate - Hệ thống review giảng viên</title>
-        <meta name="description" content="Hệ thống review giảng viên trực tuyến - Xếp hạng, review và tìm kiếm giảng viên" />
+        <title>Review gv HUIT</title>
+        <meta name="description" content="Review gv HUIT" />
       </head>
       <body>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
