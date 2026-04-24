@@ -37,8 +37,9 @@ const getTeachers = async (req, res) => {
       .populate('subjects', 'name code')
       .populate('requestedBy', 'name email')
       .sort(sort)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit))
+      .lean();
 
     const response = {
       success: true,
@@ -75,7 +76,8 @@ const getTeacher = async (req, res) => {
 
     const teacher = await Teacher.findById(req.params.id)
       .populate('department', 'name')
-      .populate('subjects', 'name code');
+      .populate('subjects', 'name code')
+      .lean();
     
     if (!teacher) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy giảng viên' });
