@@ -59,8 +59,11 @@ const googleAuth = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Google auth error:', error);
-    res.status(401).json({ success: false, message: 'Xác thực Google thất bại' });
+    console.error('Google auth error:', error.message || error);
+    res.status(401).json({ 
+      success: false, 
+      message: 'Xác thực Google thất bại: ' + (error.message || 'Lỗi không xác định') 
+    });
   }
 };
 
