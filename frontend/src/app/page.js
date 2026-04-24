@@ -49,20 +49,9 @@ export default function HomePage() {
             <Link href="/ranking" className="btn btn-secondary btn-lg">
               Xếp hạng
             </Link>
-          </div>
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardText}>Top giảng viên</div>
-            <StarRating rating={4.8} size={18} />
-          </div>
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardText}>Thống kê</div>
-            <div className={styles.heroBar}><div className={styles.heroBarFill}></div></div>
-          </div>
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardText}>Đánh giá</div>
-            <div className={styles.heroReviewPreview}>Nội dung chất lượng!</div>
+            <Link href="/teachers/request" className="btn btn-secondary btn-lg">
+              Yêu cầu thêm
+            </Link>
           </div>
         </div>
       </section>
