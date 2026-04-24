@@ -23,7 +23,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use(cors({
-  origin: ['https://giangvienhuit.vercel.app', 'https://www.giangvienhuit.vercel.app', 'http://localhost:3000'],
+  origin: ['https://giangvienhuit.vercel.app', 'https://www.giangvienhuit.vercel.app', 'http://localhost:3000', 'https://webvote-backend.onrender.com'],
   credentials: true
 }));
 app.use(express.json());
